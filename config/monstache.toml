@@ -1,0 +1,47 @@
+mongo-url = "mongodb://localhost:27017"
+elasticsearch-urls = ["https://localhost:9200"]
+
+
+
+direct-read-namespaces = ["fptu_test.users"]
+change-stream-namespaces = ["fptu_test.users"]
+
+
+gzip = true
+stats = false
+index-stats = false
+elasticsearch-user = "elastic"
+elasticsearch-password = "admin123456"
+elasticsearch-max-conns = 10 
+dropped-collections = true
+dropped-databases = true
+replay = false
+resume = true
+resume-write-unsafe = false
+resume-name = "default"
+resume-strategy = 1
+verbose = true
+exit-after-direct-reads = false
+
+
+
+########################################
+# xác định collection được mapping từ mongodb sang ES
+[[mapping]]
+namespace = "fptu_test.users" # bạn sửa lại thành tên collection của bạn nhé
+index = "users" # tên index
+
+
+[[script]]
+namespace = "fptu_test.users"
+script = """
+module.exports = function(doc) {
+    if (!!doc.isDeleted) {
+        return false;
+    }
+    return true;
+}
+"""
+
+[logs]
+error = 'E:/Codes/Ynnub2804/fptu-be-version-2/logs/mons_error.log'

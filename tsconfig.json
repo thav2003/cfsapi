@@ -1,0 +1,48 @@
+{
+  "exclude": [
+    "node_modules/",
+    "logs",
+    "public"
+    ],
+    "include": [
+        "config",
+        "src",
+        "ecosystem.config.js"
+    ],
+
+    "compilerOptions": {
+        "target": "es6",
+        "lib": [
+            "dom",
+            "es2016",
+            "es2017.object",
+            "es2018"
+        ],
+        "outDir": "build/",
+        "rootDir": ".",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "forceConsistentCasingInFileNames": true,
+        "skipLibCheck": true,
+        "pretty": true,
+        "allowUnreachableCode": false,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "types": ["node", "reflect-metadata", "jest"],
+        "baseUrl": "." ,
+        "paths": {
+            "@core/*": ["src/core/*"],
+            "@dto/*": ["src/dto/*"],
+            "@middleware/*": ["src/middleware/*"],
+            "@services/*": ["src/services/*"],
+            "@repositories": ["src/repositories"],
+            "@models":["src/models"],
+            "@controllers": ["src/controllers"],
+            "@utils/*": ["src/utils/*"],
+            "@src/*":["src/*"]
+        },
+    }
+}

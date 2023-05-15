@@ -1,0 +1,418 @@
+{
+	"info": {
+        "_postman_id": "12345-6789",
+        "name": "CFS API",
+        "description": "This is an CFS API Version 1.0",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "api",
+			"item": [
+				{
+					"name": "auth",
+					"item": [
+						{
+							"name": "register",
+							"item": [
+								{
+									"name": "/api/v1/auth/register",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"name\": \"<string>\",\n  \"email\": \"<string>\",\n  \"password\": \"<string>\",\n  \"passwordConfirm\": \"<string>\",\n  \"strategy\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/v1/auth/register",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+                                                "api",
+                                                "v1",
+                                                "auth",
+                                                "register"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													}
+												],
+												"body": {
+                                                    "mode": "raw",
+                                                    "raw": "{\n  \"name\": \"<string>\",\n  \"email\": \"<string>\",\n  \"password\": \"<string>\",\n  \"passwordConfirm\": \"<string>\",\n  \"strategy\": \"<string>\"\n}",
+                                                    "options": {
+                                                        "raw": {
+                                                            "headerFamily": "json",
+                                                            "language": "json"
+                                                        }
+                                                    }
+                                                },
+												"url": {
+                                                    "raw": "{{baseUrl}}/api/v1/auth/register",
+                                                    "host": [
+                                                        "{{baseUrl}}"
+                                                    ],
+                                                    "path": [
+                                                        "api",
+                                                        "v1",
+                                                        "auth",
+                                                        "register"
+                                                    ]
+                                                }
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"message\": \"<string>\"\n}"
+										},
+                                        {
+                                            "name": "Error Response",
+                                            "originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													}
+												],
+												"body": {
+                                                    "mode": "raw",
+                                                    "raw": "{\n  \"name\": \"<string>\",\n  \"email\": \"<string>\",\n  \"password\": \"<string>\",\n  \"passwordConfirm\": \"<string>\",\n  \"strategy\": \"<string>\"\n}",
+                                                    "options": {
+                                                        "raw": {
+                                                            "headerFamily": "json",
+                                                            "language": "json"
+                                                        }
+                                                    }
+                                                },
+												"url": {
+                                                    "raw": "{{baseUrl}}/api/v1/auth/register",
+                                                    "host": [
+                                                        "{{baseUrl}}"
+                                                    ],
+                                                    "path": [
+                                                        "api",
+                                                        "v1",
+                                                        "auth",
+                                                        "register"
+                                                    ]
+                                                }
+											},
+                                            "status": "400",
+                                            "code": 400,
+                                            "_postman_previewlanguage": "json",
+                                            "header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+                                            "cookie": [],
+                                            "body": "{\n  \"error\": \"<string>\"\n}"
+                                        }
+									]
+								}
+							]
+						},
+						{
+							"name": "login",
+							"item": [
+								{
+									"name": "/api/auth/login",
+                                    "event": [
+                                        {
+                                            "listen": "test",
+                                            "type": "text/javascript",
+                                            "script": {
+                                                "exec": [
+                                                    "pm.environment.set(\"jwt\", pm.response.json().accessToken);"
+                                                ]
+                                            }
+                                        }
+                                    ],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+                                        
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"<string>\",\n  \"password\": \"<string>\",\n  \"strategy\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/v1/auth/login",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+                                                "v1",
+												"auth",
+												"login"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"email\": \"<string>\",\n  \"password\": \"<string>\",\n  \"strategy\": \"<string>\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+                                                    "raw": "{{baseUrl}}/api/v1/auth/login",
+                                                    "host": [
+                                                        "{{baseUrl}}"
+                                                    ],
+                                                    "path": [
+                                                        "api",
+                                                        "v1",
+                                                        "auth",
+                                                        "login"
+                                                    ]
+                                                }
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"_id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"email\": \"<string>\",\n  \"role\": \"<string>\",\n  \"status\": \"<number>\",\n  \"active\": \"<boolean>\",\n  \"accessToken\": \"<string>\"\n}"
+										},
+                                        {
+                                            "name": "Error Response",
+                                            "originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"email\": \"<string>\",\n  \"password\": \"<string>\",\n  \"strategy\": \"<string>\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+                                                    "raw": "{{baseUrl}}/api/v1/auth/login",
+                                                    "host": [
+                                                        "{{baseUrl}}"
+                                                    ],
+                                                    "path": [
+                                                        "api",
+                                                        "v1",
+                                                        "auth",
+                                                        "login"
+                                                    ]
+                                                }
+											},
+                                            "status": "400",
+                                            "code": 400,
+                                            "_postman_previewlanguage": "json",
+                                            "header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+                                            "cookie": [],
+                                            "body": "{\n  \"error\": \"<string>\"\n}"
+                                        }
+									]
+								}
+							]
+						},
+						{
+							"name": "refresh",
+							"item": [
+								{
+									"name": "/api/auth/refresh",
+                                    "event": [
+                                        {
+                                            "listen": "test",
+                                            "type": "text/javascript",
+                                            "script": {
+                                                "exec": [
+                                                    "pm.environment.set(\"jwt\", pm.response.json().accessToken);"
+                                                ]
+                                            }
+                                        }
+                                    ],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/v1/auth/refresh",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+                                                "v1",
+												"auth",
+												"refresh"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Success",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"url": {
+                                                    "raw": "{{baseUrl}}/api/v1/auth/login",
+                                                    "host": [
+                                                        "{{baseUrl}}"
+                                                    ],
+                                                    "path": [
+                                                        "api",
+                                                        "v1",
+                                                        "auth",
+                                                        "login"
+                                                    ]
+                                                }
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [],
+											"cookie": [],
+											"body": "{\n  \"accessToken\": \"<string>\"\n}"
+										},
+                                        {
+                                            "name": "Error Response",
+                                            "originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+                                                    "raw": "{{baseUrl}}/api/v1/auth/login",
+                                                    "host": [
+                                                        "{{baseUrl}}"
+                                                    ],
+                                                    "path": [
+                                                        "api",
+                                                        "v1",
+                                                        "auth",
+                                                        "login"
+                                                    ]
+                                                }
+											},
+                                            "status": "400",
+                                            "code": 400,
+                                            "_postman_previewlanguage": "json",
+                                            "header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+                                            "cookie": [],
+                                            "body": "{\n  \"error\": \"<string>\"\n}"
+                                        }
+									]
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+  
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:3334"
+		},
+		{
+			"key": "jwt",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

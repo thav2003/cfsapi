@@ -1,0 +1,21 @@
+config:
+  target: "http://localhost:3334" # Thay đổi địa chỉ IP và cổng tùy thuộc vào ứng dụng của bạn
+  phases:
+    - duration: 20
+      arrivalRate: 20
+  defaults:
+    headers:
+      Content-Type: "application/json"
+      Accept: "application/json"
+scenarios:
+  - name: "Login API Test"
+    flow:
+      - post:
+          url: "/api/v1/auth/login"
+          json:
+            email: "vuthase172485@fpt.edu.vn"
+            password: "123456789"
+            strategy: "email"
+          capture:
+            - json: $.data
+              as: data
