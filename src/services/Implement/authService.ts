@@ -155,7 +155,7 @@ export class AuthService implements IAuthService {
     this.loginStrategies.set(Login.FACEBOOK, new FacebookLoginStrategy());
     this.refreshTokenRepositoryProxy = refreshTokenRepositoryProxy;
     this.errorFactory = errorFactory;
-    logger.info('Auth service initialized');
+    logger.debug('Auth service initialized');
 
   }
 

@@ -19,7 +19,7 @@ export class ConfessionService implements IConfessionService {
   constructor(@inject(TYPES.RawConfessionRepositoryProxy) rawConfessionRepositoryProxy: IRepository<RawConfession>) {
     this.rawConfessionRepositoryProxy = rawConfessionRepositoryProxy;
 
-    logger.info('Raw confessions service initialized');
+    logger.debug('Raw confessions service initialized');
 
   }
 

@@ -8,6 +8,7 @@ import { Sort } from './ISort';
 import { DocumentModel } from '@core/model/document';
 import { IErrorFactory } from '@src/errors/error.factory';
 import { TYPES } from '@src/types';
+import logger from '@src/logger';
 
 
 
@@ -33,6 +34,7 @@ export default class Repository<T extends DocumentModel> implements IRepository<
     this.collection = db.getCollection(collection);
     this.collectionName = collection;
     this.errorFactory = errorFactory;
+    logger.debug(collection + ' repository initialized');
   }
 
 
@@ -88,7 +90,7 @@ export default class Repository<T extends DocumentModel> implements IRepository<
  
   public async create(data: Partial<T>): Promise<T> {
     if (!data) {
-      this.errorFactory.createMongoDbError('Không có dữ liệu');
+      this.errorFactory.createRepositoryError('Không có dữ liệu');
     }
     const date = new Date();
     data.createdAt = date;
@@ -103,7 +105,7 @@ export default class Repository<T extends DocumentModel> implements IRepository<
 
   public async createMany(datas: Partial<T[]>): Promise<T[]> {
     if (!datas || !Array.isArray(datas) || datas.length === 0) {
-      this.errorFactory.createMongoDbError('Không có dữ liệu');
+      this.errorFactory.createRepositoryError('Không có dữ liệu');
     }
     const date = new Date();
     const modifiedDatas = datas.map(data => ({
@@ -138,7 +140,7 @@ export default class Repository<T extends DocumentModel> implements IRepository<
     }
   
     if (result.modifiedCount === 0) {
-      this.errorFactory.createMongoDbError('Không có dữ liệu nào được cập nhật');
+      this.errorFactory.createRepositoryError('Không có dữ liệu nào được cập nhật');
     }
 
     const docs = await collection.find(filter).toArray() as T[];
@@ -154,7 +156,7 @@ export default class Repository<T extends DocumentModel> implements IRepository<
     let result:UpdateResult = await collection.updateOne({ _id: id }, { $set: data });
 
     if (result.modifiedCount === 0) {
-      this.errorFactory.createMongoDbError('Không có dữ liệu nào được cập nhật');
+      this.errorFactory.createRepositoryError('Không có dữ liệu nào được cập nhật');
     }
     const doc = await this.get(id);
     return doc;
@@ -165,7 +167,7 @@ export default class Repository<T extends DocumentModel> implements IRepository<
     const collection = this.collection;
     const docs = await collection.find(filter).toArray() as T[];
     if (docs.length === 0) {
-      this.errorFactory.createMongoDbError('Dữ liệu không tồn tại');
+      this.errorFactory.createRepositoryError('Dữ liệu không tồn tại');
     }
     let result:DeleteResult;
     if (multi) {
@@ -174,7 +176,7 @@ export default class Repository<T extends DocumentModel> implements IRepository<
       result = await collection.deleteOne(filter);
     }
     if (result.deletedCount === 0) {
-      this.errorFactory.createMongoDbError('Không có dữ liệu nào được xoá');
+      this.errorFactory.createRepositoryError('Không có dữ liệu nào được xoá');
     }
     return docs;
   }
@@ -184,12 +186,12 @@ export default class Repository<T extends DocumentModel> implements IRepository<
     const collection = this.collection;
     const doc = await collection.findOne({ _id: id }) as T;
     if (!doc) {
-      this.errorFactory.createMongoDbError('Dữ liệu không tồn tại');
+      this.errorFactory.createRepositoryError('Dữ liệu không tồn tại');
     }
     let result:DeleteResult = await collection.deleteOne({ _id: id });
 
     if (result.deletedCount === 0) {
-      this.errorFactory.createMongoDbError('Không có dữ liệu nào được xoá');
+      this.errorFactory.createRepositoryError('Không có dữ liệu nào được xoá');
     }
     return doc;
   }

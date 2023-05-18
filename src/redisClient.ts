@@ -73,13 +73,13 @@ export class Redis implements IRedisClient {
     // console.log(value);
     
     await this.client.flushAll();
-    logger.info('Connected with redis');
+    logger.server('Connected with redis');
   }
 
   public async disconnect(): Promise<void> {
     await this.client.disconnect();
     // await this.cluster.disconnect();
-    logger.info(`Disconnected from redis://${RedisConfig.DB_HOST}:${RedisConfig.DB_PORT}`);
+    logger.server(`Disconnected from redis://${RedisConfig.DB_HOST}:${RedisConfig.DB_PORT}`);
   }
 
   public getClient() {

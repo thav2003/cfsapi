@@ -1,5 +1,5 @@
 import { Application, Request as ExpressRequest, NextFunction } from 'express';
-import { MethodNotAllowedResponse, ApplicationError } from './app.errors';
+import { NotFoundError, ApplicationError } from './app.errors';
 import { MongoError } from 'mongodb';
 import log from '../logger';
 import { CustomResponse } from '@src/common/common';
@@ -12,7 +12,7 @@ export default function (app: Application) {
 
   // If you are lost
   app.use(() => {
-    throw new MethodNotAllowedResponse('The api not exists');
+    throw new NotFoundError('The api not exists');
   });
 
   // Request error handler

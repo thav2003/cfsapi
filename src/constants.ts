@@ -26,7 +26,7 @@ export enum StaticMessage {
 
   EMAIL_EXIST = 'Email đã tồn tại',
 
-
+  ACTION_FAILD = 'Đã xảy ra lỗi',
 
   EXPIRED_R_TOKEN = 'Refresh token đã hết hạn',
   EXPIRED_VERIFY = 'Link xác thực đã quá hạn',
@@ -47,5 +47,6 @@ export enum StaticErrors {
   NOT_FOUND = 'Dữ liệu không tồn tại',
   REQUIRED = 'Thiếu trường dữ liệu',
   EMAIL_NOT_VERIFIED = 'Email chưa được xác thực',
+  INVALID_PARAMETER = 'Lỗi tham số Url',
 }
 

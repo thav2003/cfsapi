@@ -38,14 +38,14 @@ class Database {
 
     const client = new MongoClient(connectionString, DBConfig.OPTIONS);
     this.dbClient = await client.connect();
-    logger.info('Connected with database host');
+    logger.server('Connected with database host');
     
     this.databaseInstance = this.dbClient.db(this.dbName);
   }
 
   public async disconnect() {
     if (this.isDbConnected()) {
-      logger.info(`Disconnected from ${this.host}/${this.dbName}`);
+      logger.server(`Disconnected from ${this.host}/${this.dbName}`);
       await this.dbClient.close();
     }
   }

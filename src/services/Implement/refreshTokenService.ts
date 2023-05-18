@@ -1,7 +1,7 @@
 import { IRepository } from '@core/repository/IRepository';
 import { RefreshToken } from '@models';
 import { IRefreshTokenService } from '@services/Interface';
-import { InvalidTokenError } from '@src/errors/app.errors';
+import { IErrorFactory } from '@src/errors/error.factory';
 import { TYPES } from '@src/types';
 import { inject, injectable } from 'inversify';
 
@@ -11,8 +11,14 @@ import { inject, injectable } from 'inversify';
 export class RefreshTokenService implements IRefreshTokenService {
   private refreshTokenRepositoryProxy:IRepository<RefreshToken>;
 
-  constructor(@inject(TYPES.RefreshTokenRepositoryProxy) refreshTokenRepositoryProxy: IRepository<RefreshToken>) {
+  private errorFactory:IErrorFactory;
+
+
+  constructor(@inject(TYPES.RefreshTokenRepositoryProxy) refreshTokenRepositoryProxy: IRepository<RefreshToken>,
+    @inject(TYPES.ErrorFactory) errorFactory: IErrorFactory,
+  ) {
     this.refreshTokenRepositoryProxy = refreshTokenRepositoryProxy;
+    this.errorFactory = errorFactory;
   }
 
   async removeRefreshToken(token: RefreshToken): Promise<void> {
@@ -22,7 +28,7 @@ export class RefreshTokenService implements IRefreshTokenService {
   async getRefreshToken(token: string): Promise<RefreshToken> {
     const checkRefreshToken = await this.refreshTokenRepositoryProxy.findOne({ token:token });
     if (!checkRefreshToken) {
-      throw new InvalidTokenError('REFRESH');
+      this.errorFactory.createNotFoundError('Refresh token không tồn tại');
     }
     return checkRefreshToken;
   }

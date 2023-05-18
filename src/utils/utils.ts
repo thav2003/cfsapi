@@ -1,16 +1,23 @@
 import { ObjectId } from 'mongodb';
 import * as fs from 'fs';
 import * as utils from 'util';
-import { InvalidIdError, InvalidDateError } from '../errors/app.errors';
+import { InvalidError } from '../errors/app.errors';
 import { Select } from '@core/repository/ISelect';
 
 // Promisify some utility functions
 export const exists = utils.promisify(fs.exists);
 export const mkdir = utils.promisify(fs.mkdir);
 
+export function isObjectId(id: string | ObjectId) {
+  if (!ObjectId.isValid(id)) {
+    return false;
+  }
+  return true;
+}
+
 export function getValidObjectId(id: string | ObjectId) {
   if (!ObjectId.isValid(id)) {
-    throw new InvalidIdError();
+    throw new InvalidError('ObjectId không hợp lệ');
   }
 
   if (typeof id === 'string') {
@@ -22,7 +29,7 @@ export function getValidObjectId(id: string | ObjectId) {
 
 export function getValidDate(date: string | Date): Date {
   if (!date) {
-    throw new InvalidDateError('Date must be provided');
+    throw new InvalidError('Date must be provided');
   }
 
   let dateObject: Date;
@@ -33,12 +40,12 @@ export function getValidDate(date: string | Date): Date {
   } else if (date instanceof Date) {
     dateObject = date;
   } else {
-    throw new InvalidDateError('Invalid date type');
+    throw new InvalidError('Invalid date type');
   }
 
   // Kiểm tra tính hợp lệ của giá trị Date
   if (isNaN(dateObject.getTime())) {
-    throw new InvalidDateError('Invalid date format');
+    throw new InvalidError('Invalid date format');
   }
 
   return dateObject;

@@ -8,6 +8,7 @@ import { IRedisClient } from '@src/redisClient';
 import { TYPES } from '@src/types';
 import { getValidObjectId, selectedFields } from '@utils/utils';
 import container from '@src/injector';
+import logger from '@src/logger';
 
 
 @injectable()
@@ -30,6 +31,7 @@ export default class RepositoryProxy<T extends DocumentModel> implements IReposi
     // (async () => {
     //   await this.initialize();
     // })();
+    logger.debug(this.getCollectionName() + ' repository proxy initialized');
     this.getCollection().watch([], { fullDocument: 'updateLookup' }).on('change', (change) => {
       const { operationType, fullDocument, documentKey } = change as any;
       // Cập nhật dữ liệu tương ứng trong Redis

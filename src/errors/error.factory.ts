@@ -7,12 +7,37 @@ import { StaticErrors } from '@src/constants';
 export interface IErrorFactory {
   createBadError(message:string, errors?: ErrorDetail[]): never;
   createUnUnauthorizedError(message:string):never;
-  createMongoDbError(message:string, errors?: ErrorDetail[]):never;
+  createRepositoryError(message:string, errors?: ErrorDetail[]):never;
+  createNotFoundError(message:string, errors?:ErrorDetail[]):never;
+  createDuplicateError(message:string, errors?:ErrorDetail[]):never;
+  createMissingError(message:string, fields:string[]):never;
 }
 
 @injectable()
 export class ErrorFactory implements IErrorFactory {
-  createMongoDbError(message: string, errors?: ErrorDetail[]): never {
+  createMissingError(message: string, fields:string[]): never {
+    throw new BadRequestError(message, fields.map((field=>({
+      field:field,
+      message: StaticErrors.REQUIRED + ' ' + field,
+      code:1000,
+    }))));
+  }
+
+  createDuplicateError(message: string, errors?: ErrorDetail[]): never {
+    throw new BadRequestError(message, errors || [{
+      message: StaticErrors.DUPLICATE,
+      code:1002,
+    }]);
+  }
+
+  createNotFoundError(message: string, errors?: ErrorDetail[]): never {
+    throw new BadRequestError(message, errors || [{
+      message: StaticErrors.NOT_FOUND,
+      code:1003,
+    }]);
+  }
+
+  createRepositoryError(message: string, errors?: ErrorDetail[]): never {
     throw new BadRequestError(message, errors || [{
       message: StaticErrors.REPO_ERROR,
       code:5000,

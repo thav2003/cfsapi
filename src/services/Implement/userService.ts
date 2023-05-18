@@ -8,9 +8,9 @@ import { IUserService } from '@services/Interface';
 import { IRepository } from '@core/repository/IRepository';
 import { ObjectId } from 'mongodb';
 import { getValidObjectId } from '@utils/utils';
-import { NotFoundError } from '@src/errors/app.errors';
 import * as bcrypt from 'bcrypt';
 import logger from '@src/logger';
+import { IErrorFactory } from '@src/errors/error.factory';
 
 
 
@@ -25,21 +25,25 @@ export class UserService implements IUserService {
   private defaultSelectUser:Select;
   // @inject(TYPES.IRepositoryProxy) private userRepository: IRepositoryProxy<User>;
 
+  private errorFactory:IErrorFactory;
 
-  constructor(@inject(TYPES.UserRepositoryProxy) userRepositoryProxy: IRepository<User>) {
+  constructor(@inject(TYPES.UserRepositoryProxy) userRepositoryProxy: IRepository<User>,
+    @inject(TYPES.ErrorFactory) errorFactory: IErrorFactory,
+  ) {
     this.userRepositoryProxy = userRepositoryProxy;
     this.defaultSelectUser = {
       password:0,
       passwordConfirm:0,
     };
-    logger.info('User service initialized');
+    this.errorFactory = errorFactory;
+    logger.debug('User service initialized');
 
   }
 
   public async createUser(data: UserCreateDTO): Promise<User> {
     const duplicated = await this.userRepositoryProxy.findOne({ email:data.email }, this.defaultSelectUser);
-    if (!duplicated) {
-      throw new NotFoundError('Email have exist !!!');
+    if (duplicated) {
+      this.errorFactory.createDuplicateError('Email đã tồn tại');
     }
     const hashPassword = await this.hashPassword(data.password);
     const user = {
@@ -57,21 +61,25 @@ export class UserService implements IUserService {
   public async removeById(id: string | ObjectId): Promise<User> {
     const user = await this.userRepositoryProxy.get(getValidObjectId(id));
     if (!user) {
-      throw new NotFoundError('User not found!!');
+      this.errorFactory.createNotFoundError('Xoá user không thành công');
     }
     const res = await this.userRepositoryProxy.removeById(user._id);
     return res;
   }
 
   public async getById(id: string | ObjectId): Promise<User> {
-    return this.userRepositoryProxy.get(getValidObjectId(id), this.defaultSelectUser);
+    const user = this.userRepositoryProxy.get(getValidObjectId(id), this.defaultSelectUser);
+    if (!user) {
+      this.errorFactory.createNotFoundError('Không tìm được user');
+    }
+    return user;
   }
 
   public async updateById(id:string | ObjectId, data: Partial<User>):Promise<User> {
     const objKey = getValidObjectId(id);
     const user = await this.userRepositoryProxy.get(objKey);
     if (!user) {
-      throw new NotFoundError('User not found!!');
+      this.errorFactory.createNotFoundError('Không tìm được user');
     }
     const res = await this.userRepositoryProxy.updateById(objKey, data);
     return res; 

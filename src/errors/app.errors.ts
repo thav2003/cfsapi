@@ -1,4 +1,4 @@
-import { StaticStringKeys } from '../constants';
+import { StaticErrors } from '../constants';
 export interface ErrorDetail {
   field?: string;
   message?: string;
@@ -60,38 +60,12 @@ export class InternalError extends ApplicationError {
     super(500, message, null, arguments);
   }
 }
-
-export class InvalidCredentialError extends BadRequestError {
-  constructor(...args: any) {
-    super(StaticStringKeys.INVALID_CREDENTIAL, args);
+export class InvalidError extends BadRequestError {
+  constructor(message: string, ...args: any) {
+    super(message, [{
+      message: StaticErrors.INVALID,
+      code:1001,
+    }], args);
   }
 }
-
-export class InvalidTokenError extends BadRequestError {
-  constructor(type: string, ...args: any) {
-    if (type === 'ACCESS') {
-      super(StaticStringKeys.INVALID_ACCESS_TOKEN, args);
-    } else {
-      super(StaticStringKeys.INVALID_REFRESH_TOKEN, args);
-    }
-  }
-}
-
-export class InvalidIdError extends BadRequestError {
-  constructor(...args: any) {
-    super(StaticStringKeys.REPOSITORY_ERROR_INVALID_ID, args);
-  }
-}
-export class InvalidDateError extends BadRequestError {
-  constructor(...args: any) {
-    super(StaticStringKeys.REPOSITORY_ERROR_INVALID_DATE, args);
-  }
-}
-
-export class RepositoryMissingField extends BadRequestError {
-  constructor(...args: any) {
-    super('Field missing', args);
-  }
-}
-
 
